@@ -25,7 +25,7 @@ namespace URISOrderMicroService.Controllers
                                           [FromUri]UserOrderEnum order = UserOrderEnum.Id,
                                           [FromUri]OrderEnum orderDirection = OrderEnum.Asc)
         {
-            return OrderDB.GetOrders(userType, userName, active, order, orderDirection);
+            return null; //OrderDB.GetOrders(userType, userName, active, order, orderDirection);
         }
 
         /// <summary>
