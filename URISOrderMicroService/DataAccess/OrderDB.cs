@@ -53,7 +53,8 @@ namespace URISOrderMicroService.DataAccess
                     [Order].[Note],
                     [Order].[UserId],
                     [Order].[Price],
-                    [Order].[Quantity]
+                    [Order].[Quantity],
+                    [Order].[Active]
                 ";
             }
         }
@@ -70,6 +71,7 @@ namespace URISOrderMicroService.DataAccess
             command.AddParameter("@UserId", SqlDbType.Int, order.UserId);
             command.AddParameter("@Price", SqlDbType.Decimal, order.Price);
             command.AddParameter("@Quantity", SqlDbType.Int, order.Quantity);
+            command.AddParameter("@Active", SqlDbType.Bit, order.Active);
         }
 
         private static object CreateLikeQueryString(string str)
@@ -148,7 +150,8 @@ namespace URISOrderMicroService.DataAccess
                         [Note],
                         [UserId],
                         [Price],
-                        [Quantity]
+                        [Quantity],
+                        [Active]
                     )
                         VALUES
                         (
@@ -160,10 +163,11 @@ namespace URISOrderMicroService.DataAccess
                         @Note,
                         @UserId,
                         @Price,
-                        @Quantity
+                        @Quantity,
+                        @Active
                        )
                         SET @Id = SCOPE_IDENTITY();
-                            SELECT @Id ad Id
+                            SELECT @Id as Id
                    ";
                     FillData(command, order);
                     connection.Open();
@@ -207,7 +211,8 @@ namespace URISOrderMicroService.DataAccess
                     [Note]=@Note,
                     [UserId]=@UserId,
                     [Price]=@Price,
-                    [Quantity]=@Quantity
+                    [Quantity]=@Quantity,
+                    [Active]=@Active
                     
                     WHERE [Id]=@Id"
                         );
