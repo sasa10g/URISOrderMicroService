@@ -201,7 +201,7 @@ namespace URISOrderMicroService.DataAccess
                     SqlCommand command = connection.CreateCommand();
                     command.CommandText = String.Format(@"
                     UPDATE
-                        [user].[User]
+                        [order].[Order]
                     SET
                     [Date]=@Date,
                     [DeliveryAddress]=@DeliveryAddress,

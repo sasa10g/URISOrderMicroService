@@ -42,8 +42,8 @@ namespace URISOrderMicroService.Controllers
         /// <summary>
         /// Create a new user
         /// </summary>
-        /// <param name="order">User as json</param>
-        /// <returns>Created user</returns>        
+        /// <param name="order">Order as json</param>
+        /// <returns>Created order</returns>        
         [Route("api/Order"), HttpPost]
         public Order CreateOrder([FromBody]Order order)
         {
@@ -53,8 +53,8 @@ namespace URISOrderMicroService.Controllers
         /// <summary>
         /// Update a user
         /// </summary>
-        /// <param name="user">User as json</param>
-        /// <returns>Updated user</returns>
+        /// <param name="order">Order as json</param>
+        /// <returns>Updated order</returns>
         [Route("api/Order"), HttpPut]
         public Order UpdateOrder([FromBody]Order order)
         {
