@@ -9,7 +9,7 @@ using URISOrderMicroService.Models;
 using URISUtil.DataAccess;
 using URISUtil.Logging;
 using URISUtil.Response;
-
+using System.Diagnostics;
 
 namespace URISOrderMicroService.DataAccess
 {
@@ -20,7 +20,7 @@ namespace URISOrderMicroService.DataAccess
             Order retVal = new Order();
 
             retVal.Id = (int)reader["Id"];
-            retVal.Date = (DateTime)reader["Date"];
+            retVal.Date = (DateTime)reader["DateTime"];
             retVal.DeliveryAddress = reader["DeliveryAddress"] as string;
             retVal.DeliveryCity = reader["DeliveryCity"] as string;
             retVal.DeliveryZipCode = reader["DeliveryZipCode"] as string;
@@ -28,7 +28,7 @@ namespace URISOrderMicroService.DataAccess
             retVal.Note = reader["Note"] as string;
             retVal.UserId = (int)reader["UserId"];
             retVal.Price = (decimal)reader["Price"];
-            retVal.Quantity = (int)reader["Quantity"];
+            retVal.Quantity = reader["Quantity"] as string;
 
             return retVal;
 
@@ -44,8 +44,8 @@ namespace URISOrderMicroService.DataAccess
             get
             {
                 return @"
-                    [Order].[Id].
-                    [Order].[Date],
+                    [Order].[Id],
+                    [Order].[DateTime],
                     [Order].[DeliveryAddress],
                     [Order].[DeliveryCity],
                     [Order].[DeliveryZipCode],
@@ -69,13 +69,17 @@ namespace URISOrderMicroService.DataAccess
             command.AddParameter("@Note", SqlDbType.NVarChar, order.Note);
             command.AddParameter("@UserId", SqlDbType.Int, order.UserId);
             command.AddParameter("@Price", SqlDbType.Decimal, order.Price);
-            command.AddParameter("@Quantity", SqlDbType.Int, order.Quantity);
+            command.AddParameter("@Quantity", SqlDbType.NVarChar, order.Quantity);
         }
 
         private static object CreateLikeQueryString(string str)
         {
             return str == null ? (object)DBNull.Value : "%" + str + "%";
         }
+
+
+
+
 
         public static Order GetOrder(int Id)
         {
@@ -94,6 +98,7 @@ namespace URISOrderMicroService.DataAccess
                         );
 
                     command.AddParameter("@Id", SqlDbType.Int, Id);
+                    Debug.WriteLine(command.CommandText);
                     connection.Open();
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -120,6 +125,10 @@ namespace URISOrderMicroService.DataAccess
                 throw ErrorResponse.ErrorMessage(HttpStatusCode.BadRequest, ex);
             }
         }
+
+
+
+
 
         public static Order CreateOrder(Order order)
         {
