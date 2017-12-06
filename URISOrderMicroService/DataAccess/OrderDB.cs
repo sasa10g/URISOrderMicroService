@@ -81,6 +81,70 @@ namespace URISOrderMicroService.DataAccess
 
 
 
+        /*
+
+
+        public static List<User> GetUsers(string userType, string userName, ActiveStatusEnum active, UserOrderEnum order, OrderEnum orderDirection)
+        {
+            try
+            {
+                List<User> retVal = new List<User>();
+
+                using (SqlConnection connection = new SqlConnection(DBFunctions.ConnectionString))
+                {
+                    SqlCommand command = connection.CreateCommand();
+                    command.CommandText = String.Format(@"
+                        SELECT
+                            {0}
+                        FROM
+                            [user].[User]
+                            JOIN [user].[UserType] ON [User].[UserTypeId] = [UserType].[Id]
+                        WHERE
+                            (@UserType IS NULL OR [user].[UserType].Name LIKE @UserType) AND
+                            (@UserName IS NULL OR [user].[User].Name LIKE @UserName) AND
+                            (@Active IS NULL OR [user].[User].Active = @Active)
+                    ", AllColumnSelect);
+                    command.Parameters.Add("@UserType", SqlDbType.NVarChar);
+                    command.Parameters.Add("@UserName", SqlDbType.NVarChar);
+                    command.Parameters.Add("@Active", SqlDbType.Bit);
+
+                    command.Parameters["@UserType"].Value = CreateLikeQueryString(userType);
+                    command.Parameters["@UserName"].Value = CreateLikeQueryString(userName);
+                    switch (active)
+                    {
+                        case ActiveStatusEnum.Active:
+                            command.Parameters["@Active"].Value = true;
+                            break;
+                        case ActiveStatusEnum.Inactive:
+                            command.Parameters["@Active"].Value = false;
+                            break;
+                        case ActiveStatusEnum.All:
+                            command.Parameters["@Active"].Value = DBNull.Value;
+                            break;
+                    }
+
+                    System.Diagnostics.Debug.WriteLine(command.CommandText);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            retVal.Add(ReadRow(reader));
+                        }
+                    }
+                }
+                return retVal;
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                throw ErrorResponse.ErrorMessage(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+
+            */
 
 
         public static Order GetOrder(int Id)
